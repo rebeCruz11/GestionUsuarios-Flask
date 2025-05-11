@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion alumnos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+
+</head>
+<body>
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="/">Inicio</a>
+                        </li>
+                    </ol>
+                </nav>
+                <div class="card rounded-3">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2 text-center">Edit User</h2>
+                        <form method="POST" action="/editusuario/{{ user.id }}">
+                            <div class="form-group mb-3">
+                                <label for="carnet">Carnet</label>
+                                <input type="text" id="carnet" name="carnet" class="form-control" 
+                                    placeholder="{{ user.carnet }}" value="{{ user.carnet }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" class="form-control" 
+                                    placeholder="{{ user.nombre }}" value="{{ user.nombre }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="apellido">Apellido</label>
+                                <input type="text" id="apellido" name="apellido" class="form-control" 
+                                    placeholder="{{ user.apellido }}" value="{{ user.apellido }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="correo">Correo</label>
+                                <input type="email" id="correo" name="correo" class="form-control" 
+                                    placeholder="{{ user.correo }}" value="{{ user.correo }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="contrasena">Contraseña</label>
+                                <input type="password" id="contrasena" name="contrasena" class="form-control" 
+                                    placeholder="Escribe una nueva contraseña" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="fecha_nacimiento">Fecha de Nacimiento</label>
+                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control" 
+                                    value="{{ user.fecha_nacimiento }}" required>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <label for="tipo_usuario">Tipo de Usuario</label>
+                                <select id="tipo_usuario" name="tipo_usuario" class="form-control" required>
+                                <option value="">Seleccione un tipo</option>
+                                <option value="docente" {% if user.tipo_usuario == 'docente' %}selected{% endif %}>Docente</option>
+                                <option value="alumno" {% if user.tipo_usuario == 'alumno' %}selected{% endif %}>Alumno</option>
+                                <option value="admin" {% if user.tipo_usuario == 'admin' %}selected{% endif %}>Admin</option>
+                                </select>
+                            </div>
+
+                           <div class="form-group mb-3">
+                                <label for="estado">Estado</label>
+                                <select id="estado" name="estado" class="form-control" required>
+                                    <option value="1" {% if user.estado %}selected{% endif %}>Activo</option>
+                                    <option value="0" {% if not user.estado %}selected{% endif %}>Inactivo</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+</body>
+</html>
