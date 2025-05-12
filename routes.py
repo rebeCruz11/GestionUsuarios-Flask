@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template,request, redirect, url_for
+from flask import Blueprint, render_template,request, redirect, url_for, session
 from controllers.user import agregar_User_function, edit_usuario_function, delete_usuario_function
 import sys
 from models.user import User
@@ -11,6 +11,19 @@ main = Blueprint('main', __name__) #Esta sera la ruta main
 def home():
     data= User.obtener_usuarios()
     return render_template('index.html', data=data)
+
+@main.route('/perfil')
+def perfil():
+    # Aquí podrías recuperar datos del usuario actual si estás usando sesiones
+    # usuario = session.get('usuario')
+    return render_template('perfil.html')  # crea perfil.html si no existe
+
+@main.route('/logout')
+def logout():
+
+    return render_template('logout.html')  # crea perfil.html si no existe
+
+
 
 # Esta es la ruta que se encarga de mostrar el formulario para agregar un usuario
 # y de agregar el usuario a la base de datos
@@ -44,3 +57,11 @@ def delete_usuario(id):
 
 
 # Este sera para las notas de los usuarios alumnos
+
+@main.route('/detalles/<int:id>', methods=['GET'])
+def details_usuario(id):
+    user = User.obtener_id(id)
+
+    return render_template('detalles.html', user=user)
+
+

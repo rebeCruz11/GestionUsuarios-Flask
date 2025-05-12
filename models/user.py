@@ -33,13 +33,15 @@ class User(db.Model):
 
     @classmethod
     def obtener_usuarios(cls):
-        r = cls.query.all()
+        r = cls.query.filter_by(tipo_usuario='alumno').all()
+        # r = cls.query.all()
         result = []
 
         for i in r:
             result.append(i.data)
 
         return result
+
     
     @classmethod
     def obtener_id(cls, id):
