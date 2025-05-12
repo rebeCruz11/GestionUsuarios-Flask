@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template,request, redirect, url_for, session
 from controllers.user import agregar_User_function, edit_usuario_function, delete_usuario_function
-from controllers.nota import add_nota_function
+from controllers.nota import add_nota_function, edit_nota_function, delete_nota_function
 import sys
 from models.user import User
 from models.nota import Nota
@@ -12,9 +12,17 @@ main = Blueprint('main', __name__) #Esta sera la ruta main
 # y se encarga de mostrar la lista de usuarios
 @main.route('/', methods=['GET'])
 def home():
+    # Redirigir al login si no hay sesión activa
     if 'usuario_id' not in session:
-            return redirect(url_for('main.login'))  # Redirigir al login si no hay sesión
-        
+        return redirect(url_for('main.login'))
+    
+    # Validar que el usuario sea docente o admin
+    user = User.obtener_id(session['usuario_id'])
+    if user.tipo_usuario not in ['docente', 'admin']:
+        session.pop('usuario_id', None)  # Cerrar sesión si no tiene permisos
+        return redirect(url_for('main.login'))
+
+    # Mostrar la página principal si tiene permisos
     data = User.obtener_usuarios()
     return render_template('index.html', data=data)
 
@@ -46,14 +54,14 @@ def login():
         user = User.query.filter_by(correo=correo).first()
         
         if user and user.verificar_contrasena(contrasena):
+            # Validar que el usuario sea docente o admin
+            if user.tipo_usuario not in ['docente', 'admin']:
+                error = 'Acceso denegado. Solo docentes o administradores pueden ingresar.'
+                return render_template('login.html', error=error)
+            
             # Guardar el ID del usuario en la sesión
             session['usuario_id'] = user.id
-            if user.tipo_usuario == 'docente':
-                # Redirigir a index si es docente
-                return redirect(url_for('main.home'))
-            else:
-                # Redirigir al perfil o cualquier otra página para alumnos
-                return redirect(url_for('main.perfil'))
+            return redirect(url_for('main.home'))  # Redirigir a la página principal
         else:
             error = 'Correo o contraseña incorrectos'
             return render_template('login.html', error=error)
@@ -65,11 +73,12 @@ def login():
 # Esta es la ruta que se encarga de mostrar el formulario para agregar un usuario
 # y de agregar el usuario a la base de datos
 @main.route('/agregarUser', methods=['GET', 'POST'])
-
 def agregar_User():
-    data = agregar_User_function()
-    print(data, file=sys.stderr)
-    return render_template('agregarUser.html', data=data)
+    if request.method == 'POST':
+        agregar_User_function()
+        return redirect(url_for('main.home'))  # Redirige a la página principal después de agregar
+
+    return render_template('agregarUser.html')
 
 # Esta es la ruta que se encarga de mostrar el formulario para editar un usuario
 # y de editar el usuario en la base de datos
@@ -107,9 +116,34 @@ def agregar_nota(id):
 
     if request.method == 'POST':
         data = add_nota_function(user)
-        return redirect(url_for('main.home'))  # Redirige después de editar
+        return redirect(url_for('main.details_usuario', id= user.id))   # Redirige después de editar
 
     # Si es GET, muestra el formulario con los datos actuales
     return render_template('agregarnota.html', user=user)
+
+@main.route('/editnota/<int:id>', methods=['GET', 'POST'])
+def edit_nota(id):
+    # Obtener la nota por su ID
+    nota = Nota.query.get_or_404(id)
+
+    if request.method == 'POST':
+        # Llamar a la función para editar la nota
+        edit_nota_function(nota)
+        return redirect(url_for('main.details_usuario', id=nota.id_Usuario))  # Redirigir a los detalles del usuario
+
+    # Si es GET, mostrar el formulario con los datos actuales
+    return render_template('editnota.html', nota=nota)
+
+
+@main.route('/deletenota/<int:id>', methods=['POST'])
+def delete_nota(id):
+    # Obtener la nota por su ID
+    nota = Nota.query.get_or_404(id)
+    
+    # Eliminar la nota de la base de datos
+    delete_nota_function(nota)
+    
+    # Redirigir a los detalles del usuario asociado
+    return redirect(url_for('main.details_usuario', id=nota.id_Usuario))
 
 

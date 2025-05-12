@@ -29,3 +29,17 @@ def add_nota_function(data):
             'promedio': nota.promedio
         }
         return data
+    
+def edit_nota_function(data):
+    if request.method == 'POST':
+        data.materia = request.form['materia']
+        data.nota1 = request.form['nota1']
+        data.nota2 = request.form['nota2']
+        data.nota3 = request.form['nota3']
+        # Guardar los cambios en la base de datos
+        db.session.commit()
+        return data
+    
+def delete_nota_function(nota):
+    db.session.delete(nota)
+    db.session.commit()
