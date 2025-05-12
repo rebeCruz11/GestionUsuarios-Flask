@@ -1,0 +1,40 @@
+# Entorno virtual
+env/
+venv/
+ENV/
+.venv/
+.ENV/
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos temporales o de logs
+*.log
+*.pot
+*.mo
+*.swp
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración del sistema
+*.bak
+*.tmp
+
+# Archivos de SQLite (si no quieres subir la BD local)
+*.sqlite3
+instance/
+
+# Config de VSCode (si usas)
+.vscode/
+
+# Archivos de migraciones de base de datos (mantener solo scripts)
+# (Elimina el comentario si deseas ignorar archivos temporales)
+# migrations/versions/__pycache__/
+
+# Jupyter notebooks (si no usas)
+*.ipynb_checkpoints
+
+# Sistema operativo
+desktop.ini

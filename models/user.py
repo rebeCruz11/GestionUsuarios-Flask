@@ -43,7 +43,7 @@ class User(db.Model):
 
         return result
     
-    
+
     @classmethod
     def obtener_id(cls, id):
         return cls.query.filter(cls.id == id).first()

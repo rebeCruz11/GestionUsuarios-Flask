@@ -4,6 +4,7 @@ from controllers.nota import add_nota_function
 import sys
 from models.user import User
 from models.nota import Nota
+from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint('main', __name__) #Esta sera la ruta main
 

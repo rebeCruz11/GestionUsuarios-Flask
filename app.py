@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from routes import main
 from models.user import User
 from models.nota import Nota
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 def create_app():

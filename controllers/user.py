@@ -1,18 +1,19 @@
 from flask import request
 from models.user import User
 from extensions import db
+from werkzeug.security import generate_password_hash
 
 # Esta es la funcion que se encarga de agregar un usuario a la base de datos
 # y de retornar los datos del usuario
 
 
 def agregar_User_function():
-    if request.method == 'POST':
+    if request.method == 'POST':    
         carnet = request.form['carnet']
         nombre = request.form['nombre']
         apellido = request.form['apellido']
         correo = request.form['correo']
-        contrasena = request.form['contrasena']
+        contrasena = generate_password_hash(request.form['contrasena'])
         fecha_nacimiento = request.form['fecha_nacimiento']
         tipo_usuario = request.form['tipo_usuario']
         estado = True
@@ -46,7 +47,7 @@ def edit_usuario_function(data):
         data.nombre = request.form['nombre']
         data.apellido = request.form['apellido']
         data.correo = request.form['correo']    
-        data.contrasena = request.form['contrasena']
+        data.contrasena = generate_password_hash(request.form['contrasena'])
         data.fecha_nacimiento = request.form['fecha_nacimiento']
         data.tipo_usuario = request.form['tipo_usuario']
         data.estado = request.form['estado'] == '1'  # Esto convierte '1' a True y '0' a False
