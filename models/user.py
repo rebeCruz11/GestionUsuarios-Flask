@@ -1,4 +1,5 @@
 from extensions import db
+from werkzeug.security import check_password_hash
 
 
 class User(db.Model):
@@ -41,8 +42,19 @@ class User(db.Model):
             result.append(i.data)
 
         return result
+    
+    
+    @classmethod
+    def obtener_id(cls, id):
+        return cls.query.filter(cls.id == id).first()
+
+    def verificar_contrasena(self, contrasena_enviada):
+        return check_password_hash(self.contrasena, contrasena_enviada)
 
     
     @classmethod
     def obtener_id(cls, id):
         return cls.query.filter(cls.id == id).first()
+    
+
+    

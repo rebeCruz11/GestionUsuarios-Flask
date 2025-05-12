@@ -44,13 +44,29 @@
                             <thead>
                                 <tr>
                                     <th>Materia</th>
-                                    <th>Nota</th>
-                                    <th>Fecha</th>
+                                    <th>Nota 1</th>
+                                    <th>Nota 2</th>
+                                    <th>Nota 3</th>
+                                    <th>Promedio</th>
                                 </tr>
                             </thead>
-
+                            <tbody>
+                                {% for nota in user.notas %}
+                                <tr>
+                                    <td>{{ nota.materia }}</td>
+                                    <td>{{ nota.nota1 }}</td>
+                                    <td>{{ nota.nota2 }}</td>
+                                    <td>{{ nota.nota3 }}</td>
+                                    <td>{{ nota.promedio }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
                         </table>
-
+                        <div class="text-center mt-4">
+                            <a href="{{ url_for('main.agregar_nota', id=user.id) }}" class="btn btn-success">
+                                Agregar Nota
+                            </a>
+                        </div>
                         <!-- Botón para agregar nota -->
                     </div>
                 </div>

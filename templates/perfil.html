@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil de Usuario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .profile-card {
+            max-width: 500px;
+            margin: auto;
+            margin-top: 80px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .profile-icon {
+            font-size: 80px;
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info">
+        <div class="container-fluid">
+            <a class="navbar-brand text-dark" href="#">Gestión de Alumnos</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active text-dark" aria-current="page" href="{{ url_for('main.home') }}">Usuarios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ url_for('main.perfil') }}">Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="{{ url_for('main.logout') }}">Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="profile-card text-center">
+            <div class="profile-icon mb-3">
+                <i class="bi bi-person-circle"></i> <!-- Bootstrap Icon (requires Bootstrap Icons or replace) -->
+            </div>
+            <h3>{{ user.nombre }} {{ user.apellido }}</h3>
+            <p class="text-muted mb-1">Correo: {{ user.correo }}</p>
+            <p class="text-muted">Tipo de usuario: {{ user.tipo_usuario }}</p>
+            <hr>
+            <a href="{{ url_for('main.logout') }}" class="btn btn-danger">Cerrar sesión</a>
+        </div>
+    </div>
+
+    <!-- Bootstrap Icons (opcional, para íconos bonitos) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.js"></script>
+</body>
+</html>
